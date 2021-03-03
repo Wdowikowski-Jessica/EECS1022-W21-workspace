@@ -162,7 +162,7 @@ public class TestVendingMachine {
 		/*
 		 * Add stock of an invalid product
 		 */
-		vm.dispense("Maltesers Chocolate", 4); // this changes the status
+		vm.add("Maltesers Chocolate", 4); // this changes the status
 		
 		result = vm.checkStatus();
 		assertEquals("Invalid product: Maltesers Chocolate", result); // Notice the space between colon (:) and the invalid product's name.
