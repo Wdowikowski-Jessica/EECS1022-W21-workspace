@@ -1,73 +1,125 @@
 package model;
 
 public class Registration {
-	private String t;
-	private int m;
-	private Instructor i;
-	private String info;
-	private String[] gr;
+	/*
+	 * Attributes
+	 */
+	private String title; // notice that String is not a primitive type, it is a reference type.
+	private int marks; /* final raw marks out of 100 */
+	private Instructor instructor; /* stores the address of some Instructor object */ 
 	
-	public Registration (String t) {
-		this.t = t;
+	/*
+	 * Constructors
+	 */
+	public Registration(String title) {
+		this.title = title;
 	}
 	
-	public Registration (String t, Instructor i) {
-		this.setInstructor(i);
-		this.t = t;
-	}
-	
-	public Instructor getInstructor() {
-		this.setInstructor(i);
-		return this.i;
-	}
-	
-	public String[] getGradeReport() {
-		String marks[] = new String[2];
-		if (m >= 0 && m <= 49) {
-			marks[0] = "F";
-			marks[1] = "Failing";
-		} else if (m >= 50 && m <= 59) {
-			marks[0] = "D";
-			marks[1] = "Passing";
-		} else if (m >= 60 && m <= 69) {
-			marks[0] = "C";
-			marks[1] = "Competent";
-		} else if (m >= 70 && m <= 79) {
-			marks[0] = "B";
-			marks[1] = "Good";
-		} else if (m >= 80 && m <= 89) {
-			marks[0] = "A";
-			marks[1] = "Excellent";
-		} else if (m >= 90 && m <= 100) {
-			marks[0] = "A+";
-			marks[1] = "Exceptional";
-		}
-		gr = marks;
-		return this.gr;
-	}
-	
-	public String getInformation() {
-		if (i==null) {
-			this.info = t + " has not yet been assigned an instructor";
-		} else {
-			this.info = t + ", taught by " + this.getInstructor().getName() + ", is completed with raw marks " + m + " (" + this.getGradeReport()[0] + " ; " + this.getGradeReport()[1] + ")";
-		}
-		return this.info;
-	}
-	
-	public String getTitle() {
-		return this.t;
-	}
-	
-	public int getMarks() {
-		return this.m;
+	/*
+	 * Mutators
+	 */
+	public Registration(String title, Instructor instructor) {
+		this.title = title;
+		this.instructor = instructor; 
 	}
 	
 	public void setMarks(int marks) {
-		this.m = marks;
+		this.marks = marks;
 	}
 	
-	public void setInstructor(Instructor i) {
-		this.i = i;
+	public void setInstructor(Instructor instructor) {
+		this.instructor = instructor;
+	}
+	
+	/*
+	 * Accessors
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	public int getMarks() {
+		return marks;
+	}
+
+	public Instructor getInstructor() {
+		return instructor;
+	}  
+	
+	/*
+	 * (Not required by the JUnit)
+	 * Method used by `getGPAReport` of Participant.
+	 * Neither private nor public means the method is visible to classes in the same package.
+	 */
+	int getGradePoint() { 
+		int gp = 0;
+		
+		if(this.marks >= 90) {
+			gp = 9;
+		}
+		else if(this.marks >= 80) { 
+			gp = 8;
+		}
+		else if(this.marks >= 70) { 
+			gp = 7;
+		}
+		else if(this.marks >= 60) { 
+			gp = 6;
+		}
+		else if(this.marks >= 50) { 
+			gp = 5;
+		}
+		else { // < 50 
+			gp = 0;
+		} 
+		 
+		return gp;
+	}
+	
+	public String[] getGradeReport() {
+		String lg = "";
+		String des = ""; 
+		
+		if(this.marks >= 90) {
+			lg = "A+";
+			des = "Exceptional"; 
+		}
+		else if(this.marks >= 80) {
+			lg = "A";
+			des = "Excellent"; 
+		}
+		else if(this.marks >= 70) {
+			lg = "B";
+			des = "Good"; 
+		}
+		else if(this.marks >= 60) {
+			lg = "C";
+			des = "Competent"; 
+		}
+		else if(this.marks >= 50) {
+			lg = "D";
+			des = "Passing"; 
+		}
+		else { // < 50
+			lg = "F";
+			des = "Failing"; 
+		} 
+		
+		String[] report = {lg, des};
+		return report;
+	}
+	
+	public String getInformation() {
+		String desc = "";
+		if(this.instructor == null) {
+			desc = this.title + " has not yet been assigned an instructor";
+		}
+		else { 
+			String[] report = this.getGradeReport();
+			String lg = report[0];
+			String des = report[1];
+			desc = this.title + ", taught by " + this.instructor.getName() + ", is completed with raw marks " + this.marks + " (" + lg + " ; " + des + ")";
+		}
+		return desc;
 	}
 }
