@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Bank - Jessica Wdowikowski(217890344)</string>
+
+    <string-array name="options">
+        <item>Deposit</item>
+        <item>Withdraw</item>
+        <item>Transfer</item>
+    </string-array>
+</resources>
+

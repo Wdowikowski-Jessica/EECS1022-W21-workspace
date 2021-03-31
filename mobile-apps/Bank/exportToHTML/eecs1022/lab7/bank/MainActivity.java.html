@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">eecs1022.lab7.bank</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Spinner</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">eecs1022.lab7.bank.model.Bank</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">eecs1022.lab7.bank.model.Client</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">eecs1022.lab7.bank.model.Transaction</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s2">/* Hint: How do you share the same bank object between button clicks (attached with controller methods) of the app? */</span>
+    <span class="s1">Bank b</span><span class="s0">;</span>
+    <span class="s1">Client c</span><span class="s0">;</span>
+    <span class="s1">Transaction t</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span><span class="s0">;</span>
+        <span class="s1">b = </span><span class="s0">new </span><span class="s1">Bank()</span><span class="s0">;</span>
+        <span class="s1">c = </span><span class="s0">new </span><span class="s1">Client(</span><span class="s3">&quot;&quot;</span><span class="s0">,</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">t = </span><span class="s0">new </span><span class="s1">Transaction(</span><span class="s3">&quot;&quot;</span><span class="s0">,</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s2">/* Hint: How do you initialize an empty bank and displays its status to the output textview 
+         * when the app is first launched? 
+         */</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/* this mutator sets the output label */</span>
+    <span class="s0">private void </span><span class="s1">setContentsOfTextView(</span><span class="s0">int </span><span class="s1">id</span><span class="s0">, </span><span class="s1">String newContents) {</span>
+        <span class="s1">View view = findViewById(id)</span><span class="s0">;</span>
+        <span class="s1">TextView textView = (TextView) view</span><span class="s0">;</span>
+        <span class="s1">textView.setText(newContents)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/* this accessor retrieves input entered on the text view  */</span>
+    <span class="s0">private </span><span class="s1">String getInputOfTextField(</span><span class="s0">int </span><span class="s1">id) {</span>
+        <span class="s1">View view = findViewById(id)</span><span class="s0">;</span>
+        <span class="s1">EditText editText = (EditText) view</span><span class="s0">;</span>
+        <span class="s1">String input = editText.getText().toString()</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">input</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/* this accessor retrieves input chosen from some spinner (drop-down menu) */</span>
+    <span class="s0">private </span><span class="s1">String getItemSelected(</span><span class="s0">int </span><span class="s1">id) {</span>
+        <span class="s1">View view = findViewById(id)</span><span class="s0">;</span>
+        <span class="s1">Spinner spinner = (Spinner) view</span><span class="s0">;</span>
+        <span class="s1">String string = spinner.getSelectedItem().toString()</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">string</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/* Hints on controller methods: 
+     * 
+     * Declare two controller methods, each of which declared with a parameter with type View (see Week 9 Tutorials). 
+     *  - One method (say cm1) should be attached to the &quot;ADD A NEW ACCOUNT&quot; button, 
+     *      whereas the other method (say cm2) should be attached to the &quot;CONFIRM&quot; button. 
+     * 
+     *  - Controller method cm1 should: 
+     *    + Retrieve the name of client and the initial balance in the corresponding textfields. 
+     *      You may need to convert the retrieved text, e.g., &quot;23.4&quot; to a double value using Double.parseDouble. 
+     *    + Then, invoke the relevant method on the shared bank object to add a new client/account accordingly. 
+     *    + Finally, display the status of the bank to the output textview. 
+     * 
+     * - Controller method cm2 should: 
+     *    + Retrieve the chosen service type listed in the spinner (Deposit, Withdraw, Transfer, Print Statement) 
+     *    + Depending on the service type chosen, retrieve the from-account, to-account, and/or amount accordingly. 
+     *      (See the &quot;Assumed Usage Pattern of the App&quot; section in your Lab7 PDF instructions) 
+     *    + Then, invoke the relevant method(s), depending on the chosen service type, on the shared bank object. 
+     *    + Finally, display the status of the bank (in the case of a deposit, withdraw, or transfer) 
+     *          or the statement of an account (in the case of print statement) to the ouptut textview. 
+     */</span>
+    <span class="s0">public void </span><span class="s1">computeAddANewAccountButtonClicked(View view) {</span>
+        <span class="s1">String inputNameOfClient = getInputOfTextField(R.id.inputNameOfClient)</span><span class="s0">;</span>
+        <span class="s2">// ex. d = Double.parseDouble(textInitValue)</span>
+        <span class="s1">String inputBalance = getInputOfTextField(R.id.inputBalance)</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">initValue = Integer.parseInt(inputBalance)</span><span class="s0">;</span>
+        <span class="s1">c = </span><span class="s0">new </span><span class="s1">Client(inputNameOfClient</span><span class="s0">,</span><span class="s1">initValue)</span><span class="s0">;</span>
+        <span class="s1">setContentsOfTextView(R.id.display</span><span class="s0">,  </span><span class="s1">inputNameOfClient +</span><span class="s3">&quot;: &quot;</span><span class="s1">+ initValue)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">public void </span><span class="s1">computeConfirmButtonClicked(View view) {</span>
+        <span class="s1">String serviceTypeSpinner = getItemSelected(R.id.serviceTypeSpinner)</span><span class="s0">;</span>
+        <span class="s1">b.deposit(</span><span class="s3">&quot;&quot;</span><span class="s0">,</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">b.withdraw(</span><span class="s3">&quot;&quot;</span><span class="s0">,</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">b.transfer(</span><span class="s3">&quot;&quot;</span><span class="s0">,</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">String inputFromAccount = getInputOfTextField(R.id.inputFromAccount)</span><span class="s0">;</span>
+        <span class="s1">String inputToAccount = getInputOfTextField(R.id.inputToAccount)</span><span class="s0">;</span>
+        <span class="s1">String inputAmount = getInputOfTextField(R.id.inputAmount)</span><span class="s0">;</span>
+        <span class="s1">setContentsOfTextView(R.id.display</span><span class="s0">, </span><span class="s3">&quot;New Balance: &quot; </span><span class="s1">+ b)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
