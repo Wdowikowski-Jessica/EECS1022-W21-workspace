@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TicTacToe App - Jessica Wdowikowski (217890344)</string>
+
+    <string-array name="spinnerPlaysFirst">
+        <item>PlayerX</item>
+        <item>PlayerO</item>
+    </string-array>
+</resources>
